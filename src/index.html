@@ -1,0 +1,83 @@
+
+<script src="../gojs/release/go.js"></script>
+<script type="text/javascript" src="../first/linkDataArray.json"></script>
+<script type="text/javascript" src="../first/nodeDataArray.json"></script>
+<script>
+function init() {
+      if (window.goSamples) goSamples();  // init for these samples -- you don't need to call this
+      var $ = go.GraphObject.make;  // for conciseness in defining templates
+
+      myDiagram =
+        $(go.Diagram, "myDiagramDiv",  // must name or refer to the DIV HTML element
+          {
+            initialAutoScale: go.Diagram.Uniform,  // an initial automatic zoom-to-fit
+            contentAlignment: go.Spot.Center,  // align document to the center of the viewport
+            layout: $(go.LayeredDigraphLayout)
+          });
+
+      myDiagram.layout.direction = 90;
+      myDiagram.layout.columnSpacing = 5;
+      myDiagram.layout.layerSpacing = 100;
+
+      var bluegrad = '#90CAF9';
+
+      function necASconverter(nec) {
+        if (nec) return bluegrad;
+        return "orange";
+      }
+      myDiagram.nodeTemplate =
+        $(go.Node, "Auto",  
+          { locationSpot: go.Spot.Center },
+          $(go.Shape, "Rectangle",
+            { 
+              fill: $(go.Brush, "Linear", { 0: "rgb(255, 255, 255)"}), 
+              stroke: "black"
+            },
+            new go.Binding("fill", "nec", necASconverter)),
+          $(go.TextBlock,
+            { font: "bold 10pt helvetica, bold arial, sans-serif", margin: 4 },
+            new go.Binding("text", "text")
+          ));
+
+      // replace the default Link template in the linkTemplateMap
+      myDiagram.linkTemplate =
+        $(go.Link,  // the whole link panel
+          // { routing: go.Link.Orthogonal, corner: 5, selectable: false },
+          $(go.Shape, { strokeWidth: 1, stroke: '#424242' }),
+          // $(go.Shape,  // the link shape
+          //   { stroke: "black" }),
+          $(go.Shape,  // the arrowhead
+            { toArrow: "standard", stroke: null }),
+          $(go.Panel, "Auto",
+          // label for arrow
+            // $(go.Shape,  // the label background, which becomes transparent around the edges
+            //   {
+            //     fill: $(go.Brush, "Linear", { 0: "rgb(255, 255, 255)", 0.3: "rgb(245, 218, 113)", 0.7: "rgb(245, 218, 113)", 1: "rgb(255, 255, 255)"}),
+            //     stroke: null
+            //   }),
+            $(go.TextBlock,  // the label text
+              {
+                textAlign: "center",
+                font: "10pt helvetica, arial, sans-serif",
+                stroke: "#555555",
+                margin: 4
+              },
+              new go.Binding("text", "text"))
+          )
+        );
+      
+      // test map
+     var nodeDataArray =[{"key": "205206", "text": "205206", "nec": false}, {"key": "1299", "text": "1299", "nec": false}, {"key": "3491", "text": "3491", "nec": false}, {"key": "12491", "text": "12491", "nec": false}, {"key": "328261", "text": "328261", "nec": true}, {"key": "328185", "text": "328185", "nec": false}, {"key": "42541", "text": "42541", "nec": false}, {"key": "3356", "text": "3356", "nec": false}, {"key": "209650", "text": "209650", "nec": false}, {"key": "209844", "text": "209844", "nec": false}, {"key": "56381", "text": "56381", "nec": false}, {"key": "3257", "text": "3257", "nec": false}, {"key": "6453", "text": "6453", "nec": false}, {"key": "3280", "text": "3280", "nec": false}, {"key": "39737", "text": "39737", "nec": false}, {"key": "47692", "text": "47692", "nec": false}, {"key": "30132", "text": "30132", "nec": false}, {"key": "24875", "text": "24875", "nec": false}, {"key": "15435", "text": "15435", "nec": false}, {"key": "12859", "text": "12859", "nec": false}, {"key": "2914", "text": "2914", "nec": false}, {"key": "51088", "text": "51088", "nec": false}, {"key": "1103", "text": "1103", "nec": false}, {"key": "6908", "text": "6908", "nec": false}, {"key": "14907", "text": "14907", "nec": false}, {"key": "8218", "text": "8218", "nec": false}, {"key": "6461", "text": "6461", "nec": false}, {"key": "29467", "text": "29467", "nec": false}, {"key": "50673", "text": "50673", "nec": false}, {"key": "174", "text": "174", "nec": false}, {"key": "59605", "text": "59605", "nec": false}, {"key": "50763", "text": "50763", "nec": false}, {"key": "8943", "text": "8943", "nec": false}, {"key": "8283", "text": "8283", "nec": false}, {"key": "8455", "text": "8455", "nec": false}, {"key": "199938", "text": "199938", "nec": false}, {"key": "201709", "text": "201709", "nec": false}, {"key": "8881", "text": "8881", "nec": false}, {"key": "64271", "text": "64271", "nec": false}, {"key": "3214", "text": "3214", "nec": false}, {"key": "47147", "text": "47147", "nec": false}, {"key": "60501", "text": "60501", "nec": false}, {"key": "57264", "text": "57264", "nec": false}]
+     var linkDataArray = [{"from": "205206", "to": "1299"}, {"from": "1299", "to": "3491"}, {"from": "3491", "to": "12491"}, {"from": "12491", "to": "328261"}, {"from": "328261", "to": "328185"}, {"from": "42541", "to": "3356"}, {"from": "3356", "to": "3491"}, {"from": "209650", "to": "209844"}, {"from": "209844", "to": "56381"}, {"from": "56381", "to": "3257"}, {"from": "3257", "to": "6453"}, {"from": "6453", "to": "12491"}, {"from": "3280", "to": "39737"}, {"from": "39737", "to": "1299"}, {"from": "47692", "to": "6453"}, {"from": "30132", "to": "6453"}, {"from": "24875", "to": "3257"}, {"from": "3257", "to": "3491"}, {"from": "15435", "to": "3257"}, {"from": "12859", "to": "2914"}, {"from": "2914", "to": "3491"}, {"from": "51088", "to": "6453"}, {"from": "1103", "to": "3257"}, {"from": "6908", "to": "2914"}, {"from": "14907", "to": "3491"}, {"from": "8218", "to": "6461"}, {"from": "6461", "to": "6453"}, {"from": "29467", "to": "2914"}, {"from": "2914", "to": "6453"}, {"from": "50673", "to": "174"}, {"from": "174", "to": "6453"}, {"from": "59605", "to": "6453"}, {"from": "50763", "to": "8943"}, {"from": "8943", "to": "2914"}, {"from": "8283", "to": "6453"}, {"from": "8455", "to": "3356"}, {"from": "3356", "to": "6453"}, {"from": "199938", "to": "201709"}, {"from": "201709", "to": "8881"}, {"from": "8881", "to": "3491"}, {"from": "64271", "to": "3214"}, {"from": "3214", "to": "2914"}, {"from": "47147", "to": "1299"}, {"from": "60501", "to": "57264"}, {"from": "57264", "to": "174"}, {"from": "174", "to": "3491"}]
+    myDiagram.model = new go.GraphLinksModel(nodeDataArray, linkDataArray);
+    }
+  
+</script>
+<div id="sample">
+  <div id="myDiagramDiv" style="background-color: whitesmoke; border: solid 1px black; width: 100%; height: 700px"></div>
+  <p>
+   
+  </p>
+</div>
+
+
